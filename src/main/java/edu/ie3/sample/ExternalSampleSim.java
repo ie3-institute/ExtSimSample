@@ -4,7 +4,7 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.simona.api.sample;
+package edu.ie3.sample;
 
 import ch.qos.logback.classic.Logger;
 import edu.ie3.simona.api.data.ev.ExtEvData;
@@ -51,52 +51,48 @@ public class ExternalSampleSim extends ExtSimulation implements ExtEvSimulation 
   }
 
   @Override
+  protected List<Long> initialize() {
+    log.info("Main args handed over to external simulation: {}", Arrays.toString(getMainArgs()));
+
+    ArrayList<Long> newTicks = new ArrayList<>();
+    newTicks.add(0L);
+    return newTicks;
+  }
+
+  @Override
   protected List<Long> doActivity(long tick) {
     log.info("External simulation: Tick {} has been triggered.", tick);
 
-    if (tick > -1) {
-      final Map<UUID, Integer> availableEvcs = evData.requestAvailablePublicEvCs();
-      log.debug("Avaiable evcs: {}", availableEvcs);
+    final Map<UUID, Integer> availableEvcs = evData.requestAvailablePublicEvCs();
+    log.debug("Avaiable evcs: {}", availableEvcs);
 
-      final int phase = (int) ((tick / 900) % 4);
+    final int phase = (int) ((tick / 900) % 4);
 
-      EvMovementsMessageBuilder builder = new EvMovementsMessageBuilder();
-      switch (phase) {
-        case 0 -> builder.addArrival(evcs1, evA).addArrival(evcs2, evB);
-        case 1 -> builder.addDeparture(evcs1, evA.getUuid()).addDeparture(evcs2, evB.getUuid());
-        case 2 -> builder.addArrival(evcs1, evB).addArrival(evcs2, evA);
-        case 3 -> builder.addDeparture(evcs1, evB.getUuid()).addDeparture(evcs2, evA.getUuid());
-        default -> throw new RuntimeException("Unknown phase");
-      }
-
-      EvMovementsMessage movements = builder.build();
-
-      log.debug("Sending movements to SIMONA: {}", movements);
-      List<EvModel> departedEvs = evData.sendEvPositions(movements);
-      log.debug("Received departed evs from SIMONA: {}", departedEvs);
-
-      // store returned charging level
-      for (EvModel departed : departedEvs) {
-        if (departed.getUuid() == evA.getUuid()) evA = evA.copyWith(departed.getStoredEnergy());
-        else if (departed.getUuid() == evB.getUuid())
-          evB = evB.copyWith(departed.getStoredEnergy());
-      }
-
-      // return triggers activity complete automatically
-      ArrayList<Long> newTicks = new ArrayList<>();
-      newTicks.add(tick + 900);
-      log.info("Sending next ticks to SIMONA: {}", newTicks);
-      return newTicks;
-    } else {
-      /* INIT */
-
-      log.info("Main args handed over to external simulation: {}", Arrays.toString(getMainArgs()));
-
-      // return triggers activity complete automatically
-      ArrayList<Long> newTicks = new ArrayList<>();
-      newTicks.add(0L);
-      log.info("Sending first tick to SIMONA: {}", newTicks);
-      return newTicks;
+    EvMovementsMessageBuilder builder = new EvMovementsMessageBuilder();
+    switch (phase) {
+      case 0 -> builder.addArrival(evcs1, evA).addArrival(evcs2, evB);
+      case 1 -> builder.addDeparture(evcs1, evA.getUuid()).addDeparture(evcs2, evB.getUuid());
+      case 2 -> builder.addArrival(evcs1, evB).addArrival(evcs2, evA);
+      case 3 -> builder.addDeparture(evcs1, evB.getUuid()).addDeparture(evcs2, evA.getUuid());
+      default -> throw new RuntimeException("Unknown phase");
     }
+
+    EvMovementsMessage movements = builder.build();
+
+    log.debug("Sending movements to SIMONA: {}", movements);
+    List<EvModel> departedEvs = evData.sendEvPositions(movements);
+    log.debug("Received departed evs from SIMONA: {}", departedEvs);
+
+    // store returned charging level
+    for (EvModel departed : departedEvs) {
+      if (departed.getUuid() == evA.getUuid()) evA = evA.copyWith(departed.getStoredEnergy());
+      else if (departed.getUuid() == evB.getUuid()) evB = evB.copyWith(departed.getStoredEnergy());
+    }
+
+    // return triggers activity complete automatically
+    ArrayList<Long> newTicks = new ArrayList<>();
+    newTicks.add(tick + 900);
+    log.info("Sending next ticks to SIMONA: {}", newTicks);
+    return newTicks;
   }
 }

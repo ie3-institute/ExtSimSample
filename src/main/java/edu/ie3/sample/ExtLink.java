@@ -4,10 +4,10 @@
  * Research group Distribution grid planning and operation
  */
 
-package edu.ie3.simona.api;
+package edu.ie3.sample;
 
+import edu.ie3.simona.api.ExtLinkInterface;
 import edu.ie3.simona.api.data.ExtDataSimulation;
-import edu.ie3.simona.api.sample.ExternalSampleSim;
 import edu.ie3.simona.api.simulation.ExtSimulation;
 import java.util.ArrayList;
 import java.util.List;
