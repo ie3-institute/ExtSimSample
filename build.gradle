@@ -29,7 +29,7 @@ dependencies{
 		/* Exclude our own nested dependencies */
 		exclude group: 'com.github.ie3-institute'
 	}
-	implementation 'com.github.ie3-institute:simonaAPI:0.4.0'
+	implementation 'com.github.ie3-institute:simonaAPI:0.3.0'
 
 	implementation 'tech.units:indriya:2.1.3' // quantities
 
