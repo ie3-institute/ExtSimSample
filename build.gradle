@@ -24,7 +24,7 @@ repositories {
 
 dependencies{
 	// ie³ internal repository
-	implementation('com.github.ie3-institute:PowerSystemUtils:1.6') {
+	implementation('com.github.ie3-institute:PowerSystemUtils:2.2') {
 		exclude group: 'org.slf4j', module: 'slf4j-api'
 		/* Exclude our own nested dependencies */
 		exclude group: 'com.github.ie3-institute'
