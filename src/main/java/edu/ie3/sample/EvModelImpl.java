@@ -62,12 +62,12 @@ public class EvModelImpl implements EvModel {
   }
 
   @Override
-  public ComparableQuantity<Power> getSRatedAC() {
+  public ComparableQuantity<Power> getPRatedAC() {
     return sRatedAC;
   }
 
   @Override
-  public ComparableQuantity<Power> getSRatedDC() {
+  public ComparableQuantity<Power> getPRatedDC() {
     return sRatedDC;
   }
 
