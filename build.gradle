@@ -29,7 +29,13 @@ dependencies{
 		/* Exclude our own nested dependencies */
 		exclude group: 'com.github.ie3-institute'
 	}
-	implementation 'com.github.ie3-institute:simonaAPI:0.3.0'
+	implementation('com.github.ie3-institute:PowerSystemDataModel:5.1.0') {
+		exclude group: 'org.slf4j', module: 'slf4j-api'
+		/* Exclude our own nested dependencies */
+		exclude group: 'com.github.ie3-institute'
+	}
+
+	implementation 'com.github.ie3-institute:simonaAPI:0.6'
 
 	implementation 'tech.units:indriya:2.1.3' // quantities
 
