@@ -19,7 +19,7 @@ import tech.units.indriya.quantity.Quantities;
 /** Example simulation that keeps swapping two evs between two evcs */
 public class ExternalSampleSim extends ExtSimulation {
 
-  private ExtEvDataConnection evDataConnection;
+  private final ExtEvDataConnection evDataConnection;
 
   private final UUID evcs1 = UUID.fromString("06a14909-366e-4e94-a593-1016e1455b30");
   private final UUID evcs2 = UUID.fromString("104acdaa-5dc5-4197-aed2-2fddb3c4f237");
@@ -103,16 +103,18 @@ public class ExternalSampleSim extends ExtSimulation {
         }
       }
 
+      long newTick = tick + 900;
+      Optional<Long> maybeNextTick = Optional.of(newTick);
+
       if (!arrivals.isEmpty()) {
         log.debug("Sending arrivals to SIMONA: {}", arrivals);
 
-        evDataConnection.provideArrivingEvs(arrivals);
+        evDataConnection.provideArrivingEvs(arrivals, maybeNextTick);
       }
 
-      Long newTick = tick + 900;
       // return triggers activity complete automatically
       log.info("Sending next tick to SIMONA: {}", newTick);
-      return Optional.of(newTick);
+      return maybeNextTick;
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }
