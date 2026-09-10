@@ -1,44 +1,42 @@
 plugins {
 	id 'groovy' // groovy support
 	id 'java' // java support
-	id 'com.diffplug.spotless' version '6.24.0' //code format
-	id "com.github.johnrengelman.shadow" version "7.1.2" // fat jar
+	id 'com.diffplug.spotless' version '8.10.2'//code format
+	id 'com.gradleup.shadow' version '9.6.1' // fat jar
 }
 
 ext {
-	javaVersion = JavaVersion.VERSION_17
-	slf4jVersion = '1.7.26'
+	javaVersion = JavaVersion.VERSION_21
 	scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator // location of script plugins"
+}
+
+group = 'com.github.ie3-institute'
+description = 'simonaAPI'
+
+java {
+	sourceCompatibility = javaVersion
+	targetCompatibility = javaVersion
 }
 
 apply from: scriptsLocation + 'spotless.gradle'
 
 repositories {
 	mavenCentral()
-	maven { url "https://simona.ie3.e-technik.tu-dortmund.de/artifactory/libs-snapshot-local/" } // Internal repository
-	maven { url "https://www.jitpack.io" } // allows github repos as dependencies
-
-	// sonatype snapshot repo
-	maven {url 'https://oss.sonatype.org/content/repositories/snapshots'}
 }
 
 dependencies{
 	// ie³ internal repository
-	implementation('com.github.ie3-institute:PowerSystemUtils:1.6') {
-		exclude group: 'org.slf4j', module: 'slf4j-api'
+	//PSU
+	implementation('com.github.ie3-institute:PowerSystemUtils:3.2.2') {
+		exclude group: 'org.apache.logging.log4j'
+		exclude group: 'org.slf4j'
 		/* Exclude our own nested dependencies */
 		exclude group: 'com.github.ie3-institute'
 	}
-	implementation 'com.github.ie3-institute:simonaAPI:0.3.0'
+	implementation 'com.github.ie3-institute:simonaAPI:0.16.0'
 
-	implementation 'tech.units:indriya:2.1.3' // quantities
+	implementation 'tech.units:indriya:2.2.4' // quantities
 
 	/* logging */
-	implementation 'ch.qos.logback:logback-classic:1.2.11'
+	implementation "ch.qos.logback:logback-classic:1.6.3"
 }
-
-group = 'edu.ie3'
-version = '0.1-SNAPSHOT'
-description = 'extSimSample'
-sourceCompatibility = javaVersion
-targetCompatibility = javaVersion
