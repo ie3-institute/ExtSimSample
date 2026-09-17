@@ -7,10 +7,8 @@
 package edu.ie3.sample;
 
 import edu.ie3.simona.api.ExtLinkInterface;
-import edu.ie3.simona.api.data.ExtDataSimulation;
+import edu.ie3.simona.api.data.SetupData;
 import edu.ie3.simona.api.simulation.ExtSimulation;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ExtLink implements ExtLinkInterface {
   private final ExternalSampleSim sampleSim = new ExternalSampleSim();
@@ -21,9 +19,5 @@ public class ExtLink implements ExtLinkInterface {
   }
 
   @Override
-  public List<ExtDataSimulation> getExtDataSimulations() {
-    ArrayList<ExtDataSimulation> list = new ArrayList<>();
-    list.add(sampleSim);
-    return list;
-  }
+  public void setup(SetupData setupData) {}
 }

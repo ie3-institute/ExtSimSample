@@ -6,7 +6,7 @@
 
 package edu.ie3.sample;
 
-import edu.ie3.simona.api.data.ev.model.EvModel;
+import edu.ie3.simona.api.data.model.ev.EvModel;
 import edu.ie3.util.quantities.PowerSystemUnits;
 import java.util.UUID;
 import javax.measure.quantity.Energy;
@@ -18,7 +18,7 @@ public class EvModelImpl implements EvModel {
   private final UUID uuid;
   private final String id;
   private final ComparableQuantity<Power> sRatedAC;
-  private final ComparableQuantity<Power> sRatedDC;
+  private final ComparableQuantity<Power> pRatedDC;
   private final ComparableQuantity<Energy> eStorage;
   private final ComparableQuantity<Energy> storedEnergy;
 
@@ -26,13 +26,13 @@ public class EvModelImpl implements EvModel {
       UUID uuid,
       String id,
       ComparableQuantity<Power> sRatedAC,
-      ComparableQuantity<Power> sRatedDC,
+      ComparableQuantity<Power> pRatedDC,
       ComparableQuantity<Energy> eStorage,
       ComparableQuantity<Energy> storedEnergy) {
     this.uuid = uuid;
     this.id = id;
     this.sRatedAC = sRatedAC;
-    this.sRatedDC = sRatedDC;
+    this.pRatedDC = pRatedDC;
     this.eStorage = eStorage;
     this.storedEnergy = storedEnergy;
   }
@@ -41,12 +41,12 @@ public class EvModelImpl implements EvModel {
       UUID uuid,
       String id,
       ComparableQuantity<Power> sRatedAC,
-      ComparableQuantity<Power> sRatedDC,
+      ComparableQuantity<Power> pRatedDC,
       ComparableQuantity<Energy> eStorage) {
     this.uuid = uuid;
     this.id = id;
     this.sRatedAC = sRatedAC;
-    this.sRatedDC = sRatedDC;
+    this.pRatedDC = pRatedDC;
     this.eStorage = eStorage;
     this.storedEnergy = Quantities.getQuantity(0d, PowerSystemUnits.KILOWATTHOUR);
   }
@@ -67,8 +67,13 @@ public class EvModelImpl implements EvModel {
   }
 
   @Override
-  public ComparableQuantity<Power> getSRatedDC() {
-    return sRatedDC;
+  public ComparableQuantity<Power> getPRatedDC() {
+    return pRatedDC;
+  }
+
+  @Override
+  public double getCosPhiRated() {
+    return 0.9;
   }
 
   @Override
@@ -88,6 +93,6 @@ public class EvModelImpl implements EvModel {
 
   @Override
   public EvModelImpl copyWith(ComparableQuantity<Energy> newStoredEnergy) {
-    return new EvModelImpl(uuid, id, sRatedAC, sRatedDC, eStorage, newStoredEnergy);
+    return new EvModelImpl(uuid, id, sRatedAC, pRatedDC, eStorage, newStoredEnergy);
   }
 }
