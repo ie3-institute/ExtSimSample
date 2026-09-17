@@ -1,42 +1,43 @@
 plugins {
-	id 'groovy' // groovy support
-	id 'java' // java support
-	id 'com.diffplug.spotless' version '8.10.2'//code format
-	id 'com.gradleup.shadow' version '9.6.1' // fat jar
+  id 'groovy' // groovy support
+  id 'java' // java support
+  id 'com.diffplug.spotless' version '8.10.2'//code format
+  id 'com.gradleup.shadow' version '9.6.1' // fat jar
 }
 
 ext {
-	javaVersion = JavaVersion.VERSION_21
-	scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator // location of script plugins"
+  javaVersion = JavaVersion.VERSION_21
+  scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator // location of script plugins"
 }
 
 group = 'com.github.ie3-institute'
 description = 'simonaAPI'
 
 java {
-	sourceCompatibility = javaVersion
-	targetCompatibility = javaVersion
+  sourceCompatibility = javaVersion
+  targetCompatibility = javaVersion
 }
 
 apply from: scriptsLocation + 'spotless.gradle'
 
 repositories {
-	mavenCentral()
+  mavenCentral()
 }
 
 dependencies{
-	// ie³ internal repository
-	//PSU
-	implementation('com.github.ie3-institute:PowerSystemUtils:3.2.2') {
-		exclude group: 'org.apache.logging.log4j'
-		exclude group: 'org.slf4j'
-		/* Exclude our own nested dependencies */
-		exclude group: 'com.github.ie3-institute'
-	}
-	implementation 'com.github.ie3-institute:simonaAPI:0.16.0'
+  // ie³ internal repository
+  //PSU
+  implementation('com.github.ie3-institute:PowerSystemUtils:3.2.2') {
+    exclude group: 'org.apache.logging.log4j'
+    exclude group: 'org.slf4j'
+    /* Exclude our own nested dependencies */
+    exclude group: 'com.github.ie3-institute'
+  }
 
-	implementation 'tech.units:indriya:2.2.4' // quantities
+  implementation 'com.github.ie3-institute:simonaAPI:0.15.0'
 
-	/* logging */
-	implementation "ch.qos.logback:logback-classic:1.6.3"
+  implementation 'tech.units:indriya:2.2.4' // quantities
+
+  /* logging */
+  implementation "ch.qos.logback:logback-classic:1.6.3"
 }

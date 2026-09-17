@@ -6,11 +6,11 @@
 
 package edu.ie3.sample;
 
-import edu.ie3.simona.api.ExtSimulationProvider;
+import edu.ie3.simona.api.ExtLinkInterface;
 import edu.ie3.simona.api.data.SetupData;
 import edu.ie3.simona.api.simulation.ExtSimulation;
 
-public class ExtLink implements ExtSimulationProvider {
+public class ExtLink implements ExtLinkInterface {
   private final ExternalSampleSim sampleSim = new ExternalSampleSim();
 
   @Override
@@ -19,7 +19,5 @@ public class ExtLink implements ExtSimulationProvider {
   }
 
   @Override
-  public void setup(SetupData setupData) {
-
-  }
+  public void setup(SetupData setupData) {}
 }

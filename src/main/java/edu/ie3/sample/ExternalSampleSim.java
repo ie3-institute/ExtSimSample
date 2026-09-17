@@ -49,7 +49,9 @@ public class ExternalSampleSim extends ExtSimulation {
 
   @Override
   protected long initialize() {
-    log.info("Main args handed over to external simulation: {}", Arrays.toString(getSetupData().mainArgs()));
+    log.info(
+        "Main args handed over to external simulation: {}",
+        Arrays.toString(getSetupData().mainArgs()));
     return 0L;
   }
 

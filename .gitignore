@@ -245,3 +245,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+
+# Ignore Gradle build output directory
+build
+
+# Ignore Kotlin plugin data
+.kotlin
