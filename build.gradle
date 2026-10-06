@@ -34,7 +34,7 @@ dependencies{
     exclude group: 'com.github.ie3-institute'
   }
 
-  implementation 'com.github.ie3-institute:simonaAPI:0.15.0'
+  implementation 'com.github.ie3-institute:simonaAPI:0.16.0'
 
   implementation 'tech.units:indriya:2.2.4' // quantities
 
